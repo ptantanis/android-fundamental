@@ -12,10 +12,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val myName: MyName = MyName("Aleks Haecky")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.myName = myName
         binding.doneButton.setOnClickListener { addNickName(it) }
         binding.nicknameText.setOnClickListener { updateNickname(it) }
     }
@@ -23,7 +25,8 @@ class MainActivity : AppCompatActivity() {
     private fun addNickName(view: View) {
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-        binding.nicknameText.text = binding.nicknameEdit.text
+        myName.nickname = binding.nicknameEdit.text.toString()
+        binding.invalidateAll()
         binding.nicknameEdit.visibility = View.GONE
         view.visibility = View.GONE
         binding.nicknameText.visibility = View.VISIBLE
